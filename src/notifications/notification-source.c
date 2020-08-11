@@ -205,17 +205,16 @@ phosh_notification_source_new (const char *name)
 }
 
 
-static void
-closed (PhoshNotificationSource *self,
-        PhoshNotificationReason  reason,
+static gboolean
+remove (PhoshNotificationSource *self,
         PhoshNotification       *notification)
 {
   int i = 0;
   gpointer item = NULL;
   gboolean found = FALSE;
 
-  g_return_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self));
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (notification), FALSE);
 
   while ((item = g_list_model_get_item (G_LIST_MODEL (self->list), i))) {
     if (item == notification) {
@@ -230,9 +229,21 @@ closed (PhoshNotificationSource *self,
     g_clear_object (&item);
   }
 
-  if (!found) {
+  return found;
+}
+
+static void
+closed (PhoshNotificationSource *self,
+        PhoshNotificationReason  reason,
+        PhoshNotification       *notification)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  if (remove (self, notification))
+    g_debug ("Removed notification %p", notification);
+  else
     g_critical ("Can't remove unknown notification %p", notification);
-  }
 }
 
 
