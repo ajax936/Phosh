@@ -247,6 +247,20 @@ closed (PhoshNotificationSource *self,
 }
 
 
+static void
+expired (PhoshNotificationSource *self,
+         PhoshNotification       *notification)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  if (remove (self, notification))
+    g_debug ("Expired notification %p", notification);
+  else
+    g_critical ("Can't expire unknown notification %p", notification);
+}
+
+
 void
 phosh_notification_source_add (PhoshNotificationSource *self,
                                PhoshNotification       *notification)
@@ -259,6 +273,12 @@ phosh_notification_source_add (PhoshNotificationSource *self,
   g_signal_connect_object (notification,
                            "closed",
                            G_CALLBACK (closed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (notification,
+                           "expired",
+                           G_CALLBACK (expired),
                            self,
                            G_CONNECT_SWAPPED);
 }
