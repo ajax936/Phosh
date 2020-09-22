@@ -12,7 +12,7 @@ G_BEGIN_DECLS
 
 #define PHOSH_TYPE_MEDIA_PLAYER (phosh_media_player_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshMediaPlayer, phosh_media_player, PHOSH, MEDIA_PLAYER, GtkGrid)
+G_DECLARE_FINAL_TYPE (PhoshMediaPlayer, phosh_media_player, PHOSH, MEDIA_PLAYER, GtkListBoxRow)
 
 GtkWidget * phosh_media_player_new (void);
 

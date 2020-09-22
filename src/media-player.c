@@ -61,12 +61,11 @@ enum {
 static guint signals[N_SIGNALS];
 
 typedef struct _PhoshMediaPlayer {
-  GtkGrid                           parent_instance;
+  GtkListBoxRow                     parent_instance;
 
   GtkWidget                        *btn_play;
   GtkWidget                        *btn_next;
   GtkWidget                        *btn_prev;
-  GtkWidget                        *btn_details;
   GtkWidget                        *img_art;
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
@@ -82,7 +81,7 @@ typedef struct _PhoshMediaPlayer {
   gboolean                          playable;
 } PhoshMediaPlayer;
 
-G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_GRID);
+G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_LIST_BOX_ROW);
 
 
 static void
@@ -234,7 +233,7 @@ on_raise_done (PhoshMprisDBusMediaPlayer2 *mpris, GAsyncResult *res, PhoshMediaP
 
 
 static void
-btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
+activate_cb (PhoshMediaPlayer *self)
 {
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2 (self->mpris));
@@ -453,20 +452,18 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
                                          G_TYPE_NONE,
                                          0);
 
-  gtk_widget_class_set_css_name (widget_class, "phosh-media-player");
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/media-player.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_next);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_prev);
-  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_details);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_art);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_title);
+  gtk_widget_class_bind_template_callback (widget_class, activate_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_play_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_next_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_prev_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, btn_details_clicked_cb);
 }
 
 
@@ -537,7 +534,7 @@ attach_mpris_cb (GObject          *source_object,
     g_warning ("no mpris: %s", err->message);
 
   sensitive = phosh_mpris_dbus_media_player2_get_can_raise (self->mpris);
-  gtk_widget_set_sensitive (self->btn_details, sensitive);
+  gtk_widget_set_sensitive (GTK_WIDGET (self), sensitive);
 
   g_object_unref (self);
 }
