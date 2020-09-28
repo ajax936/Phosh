@@ -255,8 +255,10 @@ on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 static gboolean
 on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 {
-  phosh_trigger_feedback ("button-pressed");
-  phosh_panel_fold (self);
+  if (gtk_get_event_widget ((GdkEvent *) event) == GTK_WIDGET (self)) {
+    phosh_trigger_feedback ("button-pressed");
+    phosh_panel_fold (self);
+  }
   return FALSE;
 }
 
