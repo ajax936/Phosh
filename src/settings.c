@@ -67,7 +67,6 @@ typedef struct _PhoshSettings
 
   /* Notifications */
   GtkWidget *list_notifications;
-  GtkWidget *sw_notifications;
   LfbEvent  *notify_event;
 
   /* KeyboardEvents */
@@ -373,7 +372,6 @@ on_notifcation_items_changed (PhoshSettings *self,
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
 
-  gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), !is_empty);
   if (is_empty) {
     g_signal_emit (self, signals[SETTING_DONE], 0);
     end_notify_feedback (self);
@@ -499,7 +497,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, sw_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);

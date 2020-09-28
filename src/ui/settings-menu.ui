@@ -6,138 +6,124 @@
   <template class="PhoshSettings" parent="GtkBin">
     <property name="width_request">250</property>
     <property name="can_focus">False</property>
+    <property name="expand">True</property>
     <child>
       <object class="HdyClamp">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="maximum_size">350</property>
+        <property name="maximum_size">450</property>
         <child>
-          <object class="GtkBox" id="box_settings">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_top">20</property>
-            <property name="margin_bottom">10</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkFlowBox" id="quick_settings">
+              <object class="GtkBox" id="box_settings">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="column_spacing">6</property>
-                <property name="min_children_per_line">3</property>
-                <property name="max_children_per_line">3</property>
-                <property name="selection_mode">none</property>
-                <property name="homogeneous">True</property>
-                <property name="margin_bottom">18</property>
+                <property name="orientation">vertical</property>
+                <style>
+                  <class name="phosh-settings"/>
+                </style>
                 <child>
-                  <object class="PhoshQuickSetting" id="wwan_quick_setting">
+                  <object class="GtkFlowBox" id="quick_settings">
                     <property name="visible">True</property>
-                    <property name="sensitive" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
                     <property name="can_focus">False</property>
-                    <signal name="clicked" handler="wwan_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                    <property name="column_spacing">6</property>
+                    <property name="min_children_per_line">3</property>
+                    <property name="max_children_per_line">3</property>
+                    <property name="selection_mode">none</property>
+                    <property name="homogeneous">True</property>
+                    <property name="margin_bottom">18</property>
                     <child>
-                      <object class="PhoshWWanInfo" id="wwaninfo">
+                      <object class="PhoshQuickSetting" id="wwan_quick_setting">
                         <property name="visible">True</property>
+                        <property name="sensitive" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="wwan_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshWWanInfo" id="wwaninfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="PhoshQuickSetting" id="wifi_quick_setting">
-                    <property name="visible">True</property>
-                    <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="wifi_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
-                      <object class="PhoshWifiInfo" id="wifiinfo">
+                      <object class="PhoshQuickSetting" id="wifi_quick_setting">
                         <property name="visible">True</property>
+                        <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="wifi_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshWifiInfo" id="wifiinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="PhoshQuickSetting" id="bt_quick_setting">
-                    <property name="visible">True</property>
-                    <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="bt_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
-                      <object class="PhoshBtInfo" id="btinfo">
+                      <object class="PhoshQuickSetting" id="bt_quick_setting">
                         <property name="visible">True</property>
+                        <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="bt_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshBtInfo" id="btinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="PhoshQuickSetting">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
-                    <signal name="long-pressed" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
-                      <object class="PhoshBatteryInfo" id="batteryinfo">
+                      <object class="PhoshQuickSetting">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <signal name="long-pressed" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshBatteryInfo" id="batteryinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="PhoshQuickSetting">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="rotation_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
-                      <object class="PhoshRotateInfo" id="rotateinfo">
+                      <object class="PhoshQuickSetting">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="rotation_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshRotateInfo" id="rotateinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="PhoshQuickSetting">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="feedback_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
-                    <signal name="long-pressed" handler="feedback_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
-                      <object class="PhoshFeedbackInfo" id="feedbackinfo">
+                      <object class="PhoshQuickSetting">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="feedback_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <signal name="long-pressed" handler="feedback_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshFeedbackInfo" id="feedbackinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_right">6</property>
-                    <property name="icon_name">display-brightness-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -146,57 +132,91 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScale" id="scale_brightness">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="round_digits">1</property>
-                    <property name="draw_value">False</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_right">6</property>
+                        <property name="icon_name">display-brightness-symbolic</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScale" id="scale_brightness">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="round_digits">1</property>
+                        <property name="draw_value">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkListBox">
-                <property name="visible">True</property>
-                <property name="selection-mode">none</property>
-                <property name="can_focus">True</property>
-                <child>
-                  <object class="PhoshMediaPlayer" id="media_player">
-                    <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
 
-                  </object>
-                </child>
-                <style>
-                  <class name="content"/>
-                </style>
               </object>
             </child>
             <child>
               <object class="GtkScrolledWindow" id="sw_notifications">
-                <property name="visible">False</property>
+                <property name="visible">True</property>
                 <property name="vscrollbar-policy">automatic</property>
                 <property name="hscrollbar-policy">never</property>
                 <property name="propagate-natural-height">True</property>
-                <property name="min-content-height">250</property>
-                <child>
-                  <object class="GtkListBox" id="list_notifications">
-                    <property name="visible">True</property>
-                    <property name="selection-mode">none</property>
-                  </object>
-                </child>
+                <property name="expand">True</property>
                 <style>
                   <class name="phosh-notification-tray"/>
                 </style>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <child>
+                      <object class="GtkListBox">
+                        <property name="visible">True</property>
+                        <property name="selection-mode">none</property>
+                        <property name="can_focus">True</property>
+                        <child>
+                          <object class="PhoshMediaPlayer" id="media_player">
+                            <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="content"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBox" id="list_notifications">
+                        <property name="visible">True</property>
+                        <property name="selection-mode">none</property>
+                        <style>
+                          <class name="content"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

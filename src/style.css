@@ -3,6 +3,14 @@
  */
 .phosh-panel {
   font: 15px Cantarell;
+  background: none;
+}
+
+.phosh-settings {
+  padding: 24px;
+  background: black;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .phosh-panel-btn {
@@ -32,28 +40,22 @@
 /*
  * Settings menu
  */
-.phosh-settings-menu {
-  background-color: black;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-.phosh-settings-listboxrow {
-  padding: 0;
-}
-
-.phosh-settings-row {
-  box-shadow: none;
-  background-color: black;
-}
-
 .phosh-settings-menu button.circular:not(:hover):not(:active) {
     border: 2px solid @theme_bg_color;
 }
 
-.phosh-notification-tray, .phosh-notification-tray list {
-  border-radius: 6px;
-  background-color: #282828;
+.phosh-notification-tray {
+  background: none;
+}
+
+.phosh-notification-tray row:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.phosh-notification-tray row {
+  border-width: 1px;
+  border-radius: 8px;
+  -gtk-outline-radius: 7px;
 }
 
 .phosh-quick-setting {
@@ -93,7 +95,7 @@ phosh-activity:focus box {
   background: rgba(38, 35, 83, 0.7);
 }
 
-phosh-home, .phosh-panel {
+phosh-home {
   background: black;
   color: white;
 }
@@ -245,10 +247,6 @@ keypad > grid > button:focus, .text-only-button:focus {
 /*
  * Notifications
  */
-phosh-notification-content {
-  background: transparent;
-}
-
 phosh-notification-content .message-area {
   padding: 12px;
 }
@@ -264,25 +262,22 @@ phosh-notification-content .actions-area button {
   border-right: none;
 }
 
-phosh-notification-content:last-child .actions-area button:last-child {
-  border-radius: 0 0 6px 6px;
-  border-bottom: none;
-}
-
-phosh-notification-frame {
-  border-radius: 6px;
-  background-color: #282828;
-  margin: 12px;
-}
-
 phosh-notification-banner > phosh-notification-frame {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.33),
               0px 5px 6px 0px rgba(0, 0, 0, 0.07),
               0px 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
 
-phosh-notification-frame list {
-  background: transparent;
+phosh-notification-banner > phosh-notification-frame {
+  background-color: #282828;
+  margin: 12px;
+  border-radius: 8px;
+  -gtk-outline-radius: 7px;
+}
+
+phosh-notification-banner list {
+  border-radius: 8px;
+  -gtk-outline-radius: 7px;
 }
 
 phosh-notification-frame .header-area {

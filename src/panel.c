@@ -444,6 +444,7 @@ void
 phosh_panel_unfold (PhoshPanel *self)
 {
   PhoshPanelPrivate *priv;
+  int width, height;
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   priv = phosh_panel_get_instance_private (self);
@@ -452,6 +453,13 @@ phosh_panel_unfold (PhoshPanel *self)
 	return;
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
+  /* WORKAROUND: since the window is resized to PHOSH_PANEL_HEIGHT on fold we
+     need to resize the window again to fit the full screen. */
+  phosh_shell_get_usable_area (phosh_shell_get_default (),
+                               NULL, NULL, NULL, &height);
+  gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
+  gtk_window_resize (GTK_WINDOW (self), width, height + PHOSH_PANEL_HEIGHT);
+
   gtk_widget_show (priv->settings);
   gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
   gtk_stack_set_visible_child_name(GTK_STACK (priv->stack), "settings");
