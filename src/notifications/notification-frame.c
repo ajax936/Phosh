@@ -478,13 +478,19 @@ void
 phosh_notification_frame_bind_notification (PhoshNotificationFrame *self,
                                             PhoshNotification      *notification)
 {
+  const char *source_id = NULL;
   g_autoptr (PhoshNotificationSource) store = NULL;
 
   g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  store = phosh_notification_source_new ("dummy");
+  /* If we have an desktop id then use that so e.g. disabling
+   * notifications works by matching on that */
+  source_id = phosh_notification_get_desktop_id (notification);
+  if (!source_id)
+    source_id = "dummy";
 
+  store = phosh_notification_source_new (source_id);
   phosh_notification_source_add (store, notification);
 
   phosh_notification_frame_bind_model (self, G_LIST_MODEL (store));
