@@ -24,6 +24,12 @@
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
+#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
+
+#define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
+
 /**
  * PhoshNotifyManager:
  *
@@ -378,8 +384,8 @@ phosh_notify_manager_add_application (PhoshNotifyManager *self, GAppInfo *info)
   g_ptr_array_add (new_apps, munged_id);
   g_ptr_array_add (new_apps, NULL);
 
-  path = g_strconcat (NOTIFICATIONS_APP_PREFIX, "/", munged_id, "/", NULL);
-  settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
+  path = g_strconcat (PHOSH_NOTIFICATION_APP_PREFIX, "/", munged_id, "/", NULL);
+  settings = g_settings_new_with_path (PHOSH_NOTIFICATION_APP_SCHEMA_ID, path);
   g_settings_set_string (settings, NOTIFICATIONS_APP_KEY_APP_ID, id);
   g_settings_set_strv (self->settings, NOTIFICATIONS_KEY_APP_CHILDREN,
                        (const gchar * const *)new_apps->pdata);
@@ -667,7 +673,7 @@ phosh_notify_manager_constructed (GObject *object)
                                        self,
                                        NULL);
 
-  self->settings = g_settings_new (NOTIFICATIONS_SCHEMA_ID);
+  self->settings = g_settings_new (PHOSH_NOTIFICATION_SCHEMA_ID);
   g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_SHOW_BANNERS,
                             G_CALLBACK (on_notifications_setting_changed), self);
   on_notifications_setting_changed (self, NULL, self->settings);
@@ -900,8 +906,8 @@ phosh_notify_manager_get_show_notification_banner (PhoshNotifyManager *self,
     return TRUE;
 
   munged_id = phosh_munge_app_id (g_app_info_get_id(app_info));
-  path = g_strconcat (NOTIFICATIONS_APP_PREFIX, "/", munged_id, "/", NULL);
-  settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
+  path = g_strconcat (PHOSH_NOTIFICATION_APP_PREFIX, "/", munged_id, "/", NULL);
+  settings = g_settings_new_with_path (PHOSH_NOTIFICATION_APP_SCHEMA_ID, path);
   show = g_settings_get_boolean (settings, NOTIFICATIONS_APP_KEY_SHOW_BANNERS);
 
   g_debug ("Show banners for %s: %d", munged_id, show);

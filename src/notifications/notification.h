@@ -37,8 +37,13 @@ typedef enum {
 } PhoshNotificationReason;
 
 
-#define PHOSH_NOTIFICATION_DEFAULT_ACTION "default"
+/* gsettings schema */
+#define PHOSH_NOTIFICATION_SCHEMA_ID "org.gnome.desktop.notifications"
+#define PHOSH_NOTIFICATION_APP_SCHEMA_ID PHOSH_NOTIFICATION_SCHEMA_ID ".application"
+#define PHOSH_NOTIFICATION_APP_PREFIX "/org/gnome/desktop/notifications/application"
+#define PHOSH_NOTIFICATION_APP_KEY_ENABLE "enable"
 
+#define PHOSH_NOTIFICATION_DEFAULT_ACTION "default"
 
 #define PHOSH_TYPE_NOTIFICATION (phosh_notification_get_type ())
 
