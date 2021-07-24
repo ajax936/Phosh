@@ -24,7 +24,8 @@ test_phosh_notify_feedback_screen_wakeup (void)
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
   noti = phosh_notification_new (0,
-                                 "should-not-be-seen",
+                                 NULL,
+                                 NULL,
                                  info,
                                  "Hey",
                                  "Testing",

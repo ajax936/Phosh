@@ -27,6 +27,7 @@ enum {
   PROP_0,
   PROP_ID,
   PROP_APP_NAME,
+  PROP_DESKTOP_ID,
   PROP_SUMMARY,
   PROP_BODY,
   PROP_APP_ICON,
@@ -55,6 +56,7 @@ static guint signals[N_SIGNALS];
 typedef struct _PhoshNotificationPrivate {
   guint                     id;
   char                     *app_name;
+  char                     *desktop_id;
   GDateTime                *updated;
   char                     *summary;
   char                     *body;
@@ -87,6 +89,9 @@ phosh_notification_set_property (GObject      *object,
       break;
     case PROP_APP_NAME:
       phosh_notification_set_app_name (self, g_value_get_string (value));
+      break;
+    case PROP_DESKTOP_ID:
+      phosh_notification_set_desktop_id (self, g_value_get_string (value));
       break;
     case PROP_TIMESTAMP:
       phosh_notification_set_timestamp (self, g_value_get_boxed (value));
@@ -143,6 +148,9 @@ phosh_notification_get_property (GObject    *object,
     case PROP_APP_NAME:
       g_value_set_string (value, phosh_notification_get_app_name (self));
       break;
+    case PROP_DESKTOP_ID:
+      g_value_set_string (value, phosh_notification_get_desktop_id (self));
+      break;
     case PROP_TIMESTAMP:
       g_value_set_boxed (value, phosh_notification_get_timestamp (self));
       break;
@@ -195,6 +203,7 @@ phosh_notification_finalize (GObject *object)
   }
 
   g_clear_pointer (&priv->app_name, g_free);
+  g_clear_pointer (&priv->desktop_id, g_free);
   g_clear_pointer (&priv->updated, g_date_time_unref);
   g_clear_pointer (&priv->summary, g_free);
   g_clear_pointer (&priv->body, g_free);
@@ -233,6 +242,14 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "App Name",
       "The applications's name",
       "",
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_DESKTOP_ID] =
+    g_param_spec_string (
+      "desktop-id",
+      "Desktop ID",
+      "The application's desktop file id",
+      NULL,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_TIMESTAMP] =
@@ -387,6 +404,7 @@ phosh_notification_init (PhoshNotification *self)
 PhoshNotification *
 phosh_notification_new (guint                     id,
                         const char               *app_name,
+                        const char               *desktop_id,
                         GAppInfo                 *info,
                         const char               *summary,
                         const char               *body,
@@ -405,6 +423,7 @@ phosh_notification_new (guint                     id,
                        "summary", summary,
                        "body", body,
                        "app-name", app_name,
+                       "desktop-id", desktop_id,
                        "app-icon", icon,
                        /* Set info after fallback name and icon */
                        "app-info", info,
@@ -671,6 +690,44 @@ phosh_notification_get_app_name (PhoshNotification *self)
   }
 
   return priv->app_name;
+}
+
+
+void
+phosh_notification_set_desktop_id (PhoshNotification *self,
+                                   const char        *desktop_id)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->desktop_id, desktop_id) == 0)
+    return;
+
+  g_clear_pointer (&priv->desktop_id, g_free);
+  if (!desktop_id || strlen (desktop_id) == 0)
+    return;
+
+  priv->desktop_id = g_strdup (desktop_id);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DESKTOP_ID]);
+}
+
+
+const char *
+phosh_notification_get_desktop_id (PhoshNotification *self)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->info && g_app_info_get_id (priv->info)) {
+    return g_app_info_get_id (priv->info);
+  }
+
+  return priv->desktop_id;
 }
 
 

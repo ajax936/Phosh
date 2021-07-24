@@ -17,6 +17,7 @@ G_DECLARE_FINAL_TYPE (PhoshDBusNotification, phosh_dbus_notification,
 
 PhoshDBusNotification    *phosh_dbus_notification_new      (guint                     id,
                                                             const char               *app_name,
+                                                            const char               *desktop_id,
                                                             GAppInfo                 *info,
                                                             const char               *summary,
                                                             const char               *body,

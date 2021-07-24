@@ -23,6 +23,7 @@ test_phosh_notification_source_new (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -72,6 +73,7 @@ test_phosh_notification_source_close_invalid (void)
     noti = phosh_notification_new (0,
                                    NULL,
                                    NULL,
+                                   NULL,
                                    "Hey",
                                    "Testing",
                                    NULL,
@@ -84,6 +86,7 @@ test_phosh_notification_source_close_invalid (void)
                                    now);
     phosh_notification_source_add (source, noti);
     noti = phosh_notification_new (1,
+                                   NULL,
                                    NULL,
                                    NULL,
                                    "Hey",

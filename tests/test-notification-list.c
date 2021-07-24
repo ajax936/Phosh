@@ -23,6 +23,7 @@ test_phosh_notification_list_new (void)
   noti = phosh_notification_new (456,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -64,6 +65,7 @@ test_phosh_notification_list_get_by (void)
   noti = phosh_notification_new (456,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -97,6 +99,7 @@ test_phosh_notification_list_latest_on_top (void)
   noti = phosh_notification_new (456,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -110,6 +113,7 @@ test_phosh_notification_list_latest_on_top (void)
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (567,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -127,6 +131,7 @@ test_phosh_notification_list_latest_on_top (void)
   noti = phosh_notification_new (678,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -140,6 +145,7 @@ test_phosh_notification_list_latest_on_top (void)
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (789,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -195,6 +201,7 @@ test_phosh_notification_list_source_empty (void)
   noti = phosh_notification_new (456,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -235,6 +242,7 @@ test_phosh_notification_list_seek (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -248,6 +256,7 @@ test_phosh_notification_list_seek (void)
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (1,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",

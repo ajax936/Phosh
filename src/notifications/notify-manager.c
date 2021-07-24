@@ -524,6 +524,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     id = phosh_notify_manager_get_notification_id (self);
     dbus_notification = phosh_dbus_notification_new (id,
                                                      app_name,
+                                                     desktop_id,
                                                      info,
                                                      summary,
                                                      escaped_body,

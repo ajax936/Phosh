@@ -63,6 +63,7 @@ struct _PhoshNotificationClass
 
 PhoshNotification        *phosh_notification_new           (guint                     id,
                                                             const char               *app_name,
+                                                            const char               *desktop_id,
                                                             GAppInfo                 *info,
                                                             const char               *summary,
                                                             const char               *body,
@@ -86,6 +87,9 @@ const char               *phosh_notification_get_body      (PhoshNotification   
 void                      phosh_notification_set_app_name  (PhoshNotification        *self,
                                                             const char               *app_name);
 const char               *phosh_notification_get_app_name  (PhoshNotification        *self);
+void                      phosh_notification_set_desktop_id (PhoshNotification       *self,
+                                                            const char               *desktop_id);
+const char               *phosh_notification_get_desktop_id (PhoshNotification       *self);
 GDateTime                *phosh_notification_get_timestamp (PhoshNotification        *self);
 void                      phosh_notification_set_timestamp (PhoshNotification        *self,
                                                             GDateTime                *timestamp);

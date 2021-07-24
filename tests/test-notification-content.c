@@ -21,6 +21,7 @@ test_phosh_notification_content_new (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -55,6 +56,7 @@ test_phosh_notification_content_no_summary (void)
                                  NULL,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Testing",
                                  NULL,
                                  NULL,
@@ -79,6 +81,7 @@ test_phosh_notification_content_new_filter (void)
   const char *filters[] = { "X-Phosh-Foo", "X-Phosh-Bar", NULL };
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -130,6 +133,7 @@ test_phosh_notification_content_actions (void)
                                  NULL,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Testing",
                                  NULL,
                                  NULL,
@@ -166,6 +170,7 @@ test_phosh_notification_content_bad_action (void)
                                    NULL,
                                    NULL,
                                    NULL,
+                                   NULL,
                                    "Testing",
                                    NULL,
                                    NULL,
@@ -193,6 +198,7 @@ test_phosh_notification_content_set_prop_invalid (void)
   g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
                                                                NULL,
                                                                NULL,
+                                                               NULL,
                                                                "Hey",
                                                                "Testing",
                                                                NULL,
@@ -215,6 +221,7 @@ test_phosh_notification_content_get_prop_invalid (void)
   GtkWidget *content = NULL;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
   g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
+                                                               NULL,
                                                                NULL,
                                                                NULL,
                                                                "Hey",

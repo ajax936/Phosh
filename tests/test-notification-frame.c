@@ -33,6 +33,7 @@ test_phosh_notification_frame_new (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -59,6 +60,7 @@ test_phosh_notification_frame_new_filter (void)
   const char *filters[] = { "X-Phosh-Foo", "X-Phosh-Bar", NULL };
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -91,6 +93,7 @@ test_phosh_notification_frame_notification_activated (void)
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",

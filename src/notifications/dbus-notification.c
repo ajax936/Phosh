@@ -63,6 +63,7 @@ phosh_dbus_notification_init (PhoshDBusNotification *self)
 PhoshDBusNotification *
 phosh_dbus_notification_new (guint                     id,
                              const char               *app_name,
+                             const char               *desktop_id,
                              GAppInfo                 *info,
                              const char               *summary,
                              const char               *body,
@@ -80,6 +81,7 @@ phosh_dbus_notification_new (guint                     id,
                        "summary", summary,
                        "body", body,
                        "app-name", app_name,
+                       "desktop_id", desktop_id,
                        "app-icon", icon,
                        /* Set info after fallback name and icon */
                        "app-info", info,

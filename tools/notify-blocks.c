@@ -84,6 +84,7 @@ main (int argc, char **argv)
   app = g_desktop_app_info_new ("org.gnome.Calculator.desktop");
   notification = phosh_notification_new (0,
                                          "Not Shown",
+                                         NULL,
                                          G_APP_INFO (app),
                                          "2 + 2",
                                          "= 4",
@@ -104,6 +105,7 @@ main (int argc, char **argv)
   image = g_themed_icon_new ("org.gnome.Software");
   notification = phosh_notification_new (1,
                                          "Some App",
+                                         NULL,
                                          NULL,
                                          "2 + 2",
                                          "= 4",

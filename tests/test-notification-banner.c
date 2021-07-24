@@ -30,6 +30,7 @@ test_phosh_notification_banner_new (PhoshTestCompositorFixture *fixture, gconstp
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -61,6 +62,7 @@ test_phosh_notification_banner_closed (PhoshTestCompositorFixture *fixture, gcon
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -106,6 +108,7 @@ test_phosh_notification_banner_expired (PhoshTestCompositorFixture *fixture, gco
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",

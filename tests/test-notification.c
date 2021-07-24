@@ -32,6 +32,7 @@ test_phosh_notification_new_basic (void)
 
   noti = phosh_notification_new (0,
                                  NULL,
+                                 "org.example.test.desktop",
                                  NULL,
                                  "Hey",
                                  "Testing",
@@ -48,6 +49,7 @@ test_phosh_notification_new_basic (void)
   g_assert_null (phosh_notification_get_app_info (noti));
   g_assert_cmpstr (phosh_notification_get_summary (noti), ==, "Hey");
   g_assert_cmpstr (phosh_notification_get_body (noti), ==, "Testing");
+  g_assert_cmpstr (phosh_notification_get_desktop_id (noti), ==, "org.example.test.desktop");
 
   icon = phosh_notification_get_app_icon (noti);
   g_assert_true (G_IS_THEMED_ICON (icon));
@@ -152,6 +154,7 @@ test_phosh_notification_new (void)
 
   noti = phosh_notification_new (0,
                                  "should-not-be-seen",
+                                 NULL,
                                  info,
                                  "Hey",
                                  "Testing",
@@ -168,6 +171,7 @@ test_phosh_notification_new (void)
   g_assert_true (phosh_notification_get_app_info (noti) == info);
   g_assert_cmpstr (phosh_notification_get_summary (noti), ==, "Hey");
   g_assert_cmpstr (phosh_notification_get_body (noti), ==, "Testing");
+  g_assert_cmpstr (phosh_notification_get_desktop_id (noti), ==, "demo.app.Second.desktop");
 
   icon = phosh_notification_get_app_icon (noti);
   g_assert_true (G_IS_THEMED_ICON (icon));
@@ -202,6 +206,7 @@ test_phosh_notification_actions (void)
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -247,6 +252,7 @@ test_phosh_notification_get (void)
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (123,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Hey",
@@ -331,6 +337,7 @@ test_phosh_notification_expires (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -374,6 +381,7 @@ test_phosh_notification_close (void)
   noti = phosh_notification_new (0,
                                  NULL,
                                  NULL,
+                                 NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
@@ -399,6 +407,7 @@ test_phosh_notification_set_prop_invalid (void)
   g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
                                                                NULL,
                                                                NULL,
+                                                               NULL,
                                                                "Hey",
                                                                "Testing",
                                                                NULL,
@@ -418,6 +427,7 @@ test_phosh_notification_get_prop_invalid (void)
 {
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
   g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
+                                                               NULL,
                                                                NULL,
                                                                NULL,
                                                                "Hey",
