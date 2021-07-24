@@ -890,7 +890,7 @@ phosh_notify_manager_get_show_notification_banner (PhoshNotifyManager *self,
   g_autoptr (GSettings) settings = NULL;
   g_autofree char *path = NULL;
   g_autofree char *munged_id = NULL;
-  GAppInfo *app_info;
+  const char *desktop_id;
   gboolean show;
 
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
@@ -901,11 +901,11 @@ phosh_notify_manager_get_show_notification_banner (PhoshNotifyManager *self,
   if (phosh_notification_get_urgency (notification) == PHOSH_NOTIFICATION_URGENCY_CRITICAL)
     return TRUE;
 
-  app_info = phosh_notification_get_app_info (notification);
-  if (!app_info)
+  desktop_id = phosh_notification_get_desktop_id (notification);
+  if (desktop_id == NULL || desktop_id[0] == '\0')
     return TRUE;
 
-  munged_id = phosh_munge_app_id (g_app_info_get_id(app_info));
+  munged_id = phosh_munge_app_id (desktop_id);
   path = g_strconcat (PHOSH_NOTIFICATION_APP_PREFIX, "/", munged_id, "/", NULL);
   settings = g_settings_new_with_path (PHOSH_NOTIFICATION_APP_SCHEMA_ID, path);
   show = g_settings_get_boolean (settings, NOTIFICATIONS_APP_KEY_SHOW_BANNERS);
