@@ -37,6 +37,7 @@ variables:
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
                     libadwaita-dev json-glib-dev
+  XDG_DATA_DIRS: /usr/share
 
 .bookworm_vars: &bookworm_vars
   variables:
