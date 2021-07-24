@@ -10,6 +10,7 @@
 
 #include "phosh-config.h"
 #include "notification-source.h"
+#include "util.h"
 
 /**
  * PhoshNotificationSource:
@@ -27,6 +28,9 @@ typedef struct _PhoshNotificationSource {
   GListStore *list;
 
   char       *name;
+  GSettings  *settings;
+  gboolean    enabled;
+
 } PhoshNotificationSource;
 
 
@@ -39,6 +43,7 @@ G_DEFINE_TYPE_WITH_CODE (PhoshNotificationSource, phosh_notification_source, G_T
 enum {
   PROP_0,
   PROP_NAME,
+  PROP_ENABLED,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -56,6 +61,7 @@ phosh_notification_source_finalize (GObject *object)
 {
   PhoshNotificationSource *self = PHOSH_NOTIFICATION_SOURCE (object);
 
+  g_clear_object (&self->settings);
   g_clear_object (&self->list);
   g_clear_pointer (&self->name, g_free);
 
@@ -74,6 +80,9 @@ phosh_notification_source_set_property (GObject      *object,
   switch (property_id) {
     case PROP_NAME:
       self->name = g_value_dup_string (value);
+      break;
+    case PROP_ENABLED:
+      self->enabled = g_value_get_boolean (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -94,6 +103,9 @@ phosh_notification_source_get_property (GObject    *object,
     case PROP_NAME:
       g_value_set_string (value, self->name);
       break;
+    case PROP_ENABLED:
+      g_value_set_boolean (value, self->enabled);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -102,10 +114,30 @@ phosh_notification_source_get_property (GObject    *object,
 
 
 static void
+phosh_notification_source_constructed (GObject *object)
+{
+  PhoshNotificationSource *self = PHOSH_NOTIFICATION_SOURCE (object);
+  g_autofree char *munged_id = NULL;
+  g_autofree char *path = NULL;
+
+  G_OBJECT_CLASS (phosh_notification_source_parent_class)->constructed (object);
+
+  munged_id = phosh_munge_app_id (self->name);
+  path = g_strconcat (PHOSH_NOTIFICATION_APP_PREFIX, "/", munged_id, "/", NULL);
+  self->settings = g_settings_new_with_path (PHOSH_NOTIFICATION_APP_SCHEMA_ID, path);
+
+  g_settings_bind (self->settings, PHOSH_NOTIFICATION_APP_KEY_ENABLE,
+                   self, "enabled", G_SETTINGS_BIND_GET);
+  g_debug ("Adding listener for %s: enabled: %d", path, self->enabled);
+}
+
+
+static void
 phosh_notification_source_class_init (PhoshNotificationSourceClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+  object_class->constructed = phosh_notification_source_constructed;
   object_class->finalize = phosh_notification_source_finalize;
   object_class->set_property = phosh_notification_source_set_property;
   object_class->get_property = phosh_notification_source_get_property;
@@ -117,6 +149,19 @@ phosh_notification_source_class_init (PhoshNotificationSourceClass *klass)
       "Source name (ID)",
       NULL,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_CONSTRUCT_ONLY);
+
+  /**
+   * PhoshNotificationSource:enabled:
+   *
+   * Whether this notification source is currently enabled.
+   */
+  props[PROP_ENABLED] =
+    g_param_spec_boolean (
+      "enabled",
+      "",
+      "",
+      TRUE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -246,13 +291,22 @@ phosh_notification_source_add (PhoshNotificationSource *self,
   g_return_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  g_list_store_insert (self->list, 0, notification);
-
-  g_signal_connect_object (notification,
-                           "closed",
-                           G_CALLBACK (closed),
-                           self,
-                           G_CONNECT_SWAPPED);
+  if (self->enabled) {
+    g_list_store_insert (self->list, 0, notification);
+    g_signal_connect_object (notification,
+                             "closed",
+                             G_CALLBACK (closed),
+                             self,
+                             G_CONNECT_SWAPPED);
+  } else {
+    g_debug ("Notifications for %s disabled", self->name);
+    phosh_notification_close (notification,
+                              PHOSH_NOTIFICATION_REASON_CLOSED);
+    /* Other parts of the stack might already have created a frame so
+     * make sure they know it's empty */
+    if (!g_list_model_get_n_items (G_LIST_MODEL (self->list)))
+      g_signal_emit (self, signals[SIGNAL_EMPTY], 0);
+  }
 }
 
 
